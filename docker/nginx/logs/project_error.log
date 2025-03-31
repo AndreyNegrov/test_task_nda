@@ -1,0 +1,2 @@
+2025/03/24 20:03:07 [crit] 28#28: *1 realpath() "/app/public" failed (2: No such file or directory), client: 172.22.0.1, server: example.com, request: "GET /admin/dashboard HTTP/1.1", host: "localhost"
+2025/03/24 20:03:19 [crit] 28#28: *1 realpath() "/app/public" failed (2: No such file or directory), client: 172.22.0.1, server: example.com, request: "GET / HTTP/1.1", host: "localhost"

@@ -1,0 +1,45 @@
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - ${NGINX_HOST_PORT}:80
+    volumes:
+      - ./../:/app
+      - ./nginx/config/:/etc/nginx/conf.d
+      - ./nginx/logs/:/var/log/nginx
+    networks:
+      - test-task-network
+    restart: always
+
+  php:
+    build:
+      context: './'
+      dockerfile: './php/Dockerfile'
+    networks:
+      - test-task-network
+    volumes:
+      - "../:/app"
+      - "./php/cron/cron.log:/var/log/cron.log"
+    restart: always
+
+  mysql:
+    image: mysql:latest
+    volumes:
+      - test-task-mysql-volume:/var/lib/mysql
+    networks:
+      - test-task-network
+    environment:
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+    restart: always
+    ports:
+      - ${MYSQL_HOST_PORT}:3306
+
+volumes:
+  test-task-mysql-volume:
+
+networks:
+  test-task-network:
+    external: true
